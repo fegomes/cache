@@ -76,36 +76,38 @@ int main()
 
 	std::cout << "-------------------------------<std::string,int>---------------------------------" << std::endl;
 
-	cache<std::string, int> lru3(4);
+	{
+		cache<std::string, int> lru3(4);
 
-	lru3.add("A", 2);
-	lru3.add("B", 4);
-	lru3.add("C", 6);
-	lru3.add("D", 8);
+		lru3.add("A", 2);
+		lru3.add("B", 4);
+		lru3.add("C", 6);
+		lru3.add("D", 8);
 
-	lru3.get("A");
+		lru3.get("A");
 
-	lru3.dump();
+		lru3.dump();
 
-	lru3.get("B");
+		lru3.get("B");
 
-	lru3.dump();
+		lru3.dump();
 
-	lru3.get("C");
+		lru3.get("C");
 
-	lru3.dump();
+		lru3.dump();
 
-	lru3.get("D");
+		lru3.get("D");
 
-	lru3.dump();
+		lru3.dump();
 
-	lru3.get("A");
+		lru3.get("A");
 
-	lru3.dump();
+		lru3.dump();
 
-	lru3.get("C");
+		lru3.get("C");
 
-	lru3.dump();
+		lru3.dump();
+	}
 
 
 	int pause;

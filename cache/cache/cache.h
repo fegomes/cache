@@ -106,7 +106,7 @@ public:
 	}
 
 	virtual ~cache() {
-
+		destroy();
 	}
 
 	Value get(Key ref) {
