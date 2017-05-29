@@ -68,7 +68,7 @@ public:
 			set_first(n);
 			return n->value;
 		}
-		return NULL;
+		return Value();
 	}
 
 	void add(Key key, Value value) {
@@ -97,13 +97,23 @@ public:
 
 	void destroy() {
 		for (auto ci = _umap.begin(); ci != _umap.end(); ci++) {
-			delete ci->second;
+			ci->second.reset();
 		}
 
+		first.reset();
+		last.reset();
+
 		_umap.clear();
-	}l  
+	}  
 
 	void dump() {
+		auto ci = _umap.begin();
+
+		if (ci == _umap.end()) {
+			std::cout << "[empty]" << std::endl;
+			return;
+		}
+
 		if (first) {
 			std::cout << "first[" << first->key << "|" << first->value << "] ";
 		}
@@ -112,7 +122,7 @@ public:
 		}
 		std::cout << std::endl;
 
-		for (auto ci = _umap.begin(); ci != _umap.end(); ci++) {
+		for (; ci != _umap.end(); ci++) {
 			std::cout << "\t";
 			ci->second->dump();
 		}		
@@ -140,7 +150,7 @@ private:
 		ref->left = nullptr;
 
 		if (first != nullptr) {
-			first->last = ref;
+			first->left = ref;
 		}
 
 		first = ref;
@@ -157,6 +167,4 @@ public:
 private:
 	unsigned int _capacity;
 	std::unordered_map<Key, NodePtr> _umap;
-	
-
 };
