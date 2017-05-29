@@ -3,7 +3,6 @@
 
 #include "stdafx.h"
 #include "cache.h"
-
 #include <iostream>
 
 int main()

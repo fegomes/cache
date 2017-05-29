@@ -3,6 +3,55 @@
 #include <memory>
 #include <unordered_map>
 
+// If you need another cache, I can create template specialization, it is simple like this
+/*
+
+enum cache_type {
+lru = 0,
+fifo = 1,
+lifo = 2
+};
+
+template < cache_type type, class key, class value >
+class cache {
+public:
+cache() {}
+};
+
+template <class key, class value >
+class cache <cache_type::lru, key, value> {
+public:
+cache() {}
+key _key;
+value _value;
+// TODO: your code here
+std::string type() { return "lru"; }
+};
+
+template <class key, class value >
+class cache <cache_type::fifo, key, value> {
+public:
+cache() {}
+key _key;
+value _value;
+// TODO: your code here
+std::string type() { return "fifo"; }
+};
+
+// example
+int main() {
+
+cache<lru, int, int> cache_;
+
+std::cout << cache_.type() << std::endl;
+
+return 0;
+
+}
+
+*/
+
+
 template < class Key, class Value >
 class cache {
 public:
@@ -68,16 +117,17 @@ public:
 			set_first(n);
 			return n->value;
 		}
+		// TODO: It needs to be revised to return throw (std::out_of_range) or boost::optional for best performance
 		return Value();
 	}
 
 	void add(Key key, Value value) {
 		auto ci = _umap.find(key);
 		if (ci != _umap.end()) {
-			NodePtr old = ci->second;
-			old->value = value;
-			remove(old);
-			set_first(old);
+			NodePtr ref = ci->second;
+			ref->value = value;
+			remove(ref);
+			set_first(ref);
 		}
 		else {
 			NodePtr created = std::make_shared<Node>(key, value);
